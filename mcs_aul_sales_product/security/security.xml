@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record model="ir.module.category" id="product_button_approve">
+        <field name="name">Approve Product</field>
+    </record>
+
+    <record model="res.groups" id="group_user">
+        <field name="name">User</field>
+        <field name="category_id" ref="product_button_approve"/>
+    </record>
+
+    <record model="res.groups" id="group_admin">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="product_button_approve"/>
+        <field name="implied_ids" eval="[(4,ref('mcs_aul_sales_product.group_user'))]"/>
+    </record>
+
+</odoo>

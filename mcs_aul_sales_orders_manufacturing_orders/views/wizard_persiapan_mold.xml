@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- persiapan.mold form view -->
+  <record id="persiapan_mold_view_form" model="ir.ui.view">
+    <field name="name">persiapan.mold.view.form</field>
+    <field name="model">wizard.persiapan.mold</field>
+    <field name="priority">999</field>
+    <field name="arch" type="xml">
+      <form string="Persiapan Mold">
+        <sheet>
+          <group>
+            <field name="dandori_id"/>
+            <field name="persiapan_proses_id"/>
+            <field name="setting_kondisi_id"/>
+            <field name="problem_id"/>
+            <field name="problem_mesin_id"/>
+            <field name="robot_id"/>
+            <field name="cooling_id"/>
+            <field name="matl_id"/>
+            <field name="utility_id"/>
+            <field name="note"/>
+          </group>
+        </sheet>
+        <footer>
+          <button name="save_submit" type="object" string="Submit" class="btn btn-primary"/>
+          <button type="object" string="Cancel" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+  
+  <!-- persiapan.mold action window -->
+  <!-- <record id="wizard_persiapan_mold_action" model="ir.actions.act_window">
+    <field name="name">Persiapan Mold</field>
+    <field name="res_model">wizard.persiapan.mold</field>
+    <field name="view_mode">form</field>
+  </record> -->
+
+</odoo>

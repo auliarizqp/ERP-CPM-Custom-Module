@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  
+  <!-- product.pricelist inherit form view -->
+  <record id="inherit_part_number_view_id" model="ir.ui.view">
+    <field name="name">inherit_part_number_view_id</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook//field[@name='product_tmpl_id']" position="before">
+        <field name="part_number"/>
+      </xpath>
+      <xpath expr="//sheet/notebook//field[@name='product_tmpl_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+      <xpath expr="//sheet/notebook//field[@name='part_number']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- master.part.number inherit form view -->
+  <record id="inherit_porduct_pn_view_id" model="ir.ui.view">
+    <field name="name">inherit_porduct_pn_view_id</field>
+    <field name="model">master.part.number</field>
+    <field name="inherit_id" ref="mc_aul_reporting_and_report.part_number_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='part_number']" position="after">
+        <field name="product" force_save="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- master.part.number inherit form view -->
+  <record id="inherit_porduct_pn_tree_id" model="ir.ui.view">
+    <field name="name">inherit_porduct_pn_tree_id</field>
+    <field name="model">master.part.number</field>
+    <field name="inherit_id" ref="mc_aul_reporting_and_report.part_number_view_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='part_number']" position="after">
+        <field name="product" force_save="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- master.item.number inherit form view -->
+  <record id="inherit_porduct_in_view_id" model="ir.ui.view">
+    <field name="name">inherit_porduct_in_view_id</field>
+    <field name="model">master.item.number</field>
+    <field name="inherit_id" ref="mc_aul_reporting_and_report.item_number_view_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='item_number']" position="after">
+        <field name="product" force_save="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- master.item.number inherit form view -->
+  <record id="inherit_porduct_in_tree_id" model="ir.ui.view">
+    <field name="name">inherit_porduct_in_tree_id</field>
+    <field name="model">master.item.number</field>
+    <field name="inherit_id" ref="mc_aul_reporting_and_report.item_number_view_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='item_number']" position="after">
+        <field name="product" force_save="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- res.partner inherit form view -->
+  <record id="inherit_search_view_view_id" model="ir.ui.view">
+    <field name="name">res.partner.inherit.search.tree</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_res_partner_filter"/>
+    <field name="arch" type="xml">
+      <xpath expr="//search/field[@name='name']" position="after">
+        <field name="vendor_cod"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="inherit_order_date_view_id" model="ir.ui.view">
+    <field name="name">sale.blanket.order.inherit.date.view.form</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='validity_date']" position="after">
+        <field name="order_date" attrs="{'required': [('state', 'in', ('draft', 'done'))]}"/>
+      </xpath>
+      <xpath expr="//sheet/div[2]/" position="after">
+        <div class="oe_title">
+          <h1>
+            <field name="name_po_customer" readonly="0"/>
+          </h1>
+        </div>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="change_view_tree_view_id" model="ir.ui.view">
+    <field name="name">sale.blanket.order.inherit.view.tree</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="attributes">
+        <attribute name="string">Sales Forecast Name</attribute>
+      </xpath>
+      <xpath expr="//field[@name='name']" position="after">
+        <field name="name_po_customer"/>
+      </xpath>
+      <xpath expr="//field[@name='partner_id']" position="attributes">
+        <attribute name="string">Customer</attribute>
+      </xpath>
+      <xpath expr="//field[@name='partner_id']" position="before">
+        <field name="order_date"/>
+      </xpath>
+      <xpath expr="//field[@name='validity_date']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='user_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='state']" position="attributes">
+        <attribute name="string">Status</attribute>
+      </xpath>
+      <xpath expr="//field[@name='state']" position="after">
+        <field name="amount_total"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="view_barcode_view_id" model="ir.ui.view">
+    <field name="name">product.template.inherit.view.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='barcode']" position="attributes">
+        <attribute name="invisible">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="view_id" model="ir.ui.view">
+    <field name="name">product.template.inherit.view.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//header" position="inside">
+        <!-- <button name="action_account_archive_enable" type="object" string="Confirm" class="btn btn-primary" attrs="{'invisible':[('active','=',True)]}"/>
+        <button name="action_account_archive_disable" type="object" string="Cancel" attrs="{'invisible':[('active','=',False)]}"/> -->
+        <field name="state" widget="statusbar" readonly="1"/>
+        <button name="action_approved" type="object" string="Approve" class="btn btn-primary" states="draft" groups="mcs_aul_sales_product.group_admin"/>
+        <button name="action_not_approved" type="object" string="Cancel" states="draft" groups="mcs_aul_sales_product.group_admin"/>
+      </xpath>
+      <!-- <xpath expr="//sheet/div/div/div[2]" position="after">
+        <div>
+          <field name="active"/>
+          <label for="active"/>
+        </div>
+      </xpath> -->
+      <xpath expr="//field[@name='categ_id']" position="after">
+        <field name="date_approve" readonly="1"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="inherit_date_view_id" model="ir.ui.view">
+    <field name="name">product.template.inherit.view.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='categ_id']" position="before">
+        <field name="date_approve" readonly="1"/>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

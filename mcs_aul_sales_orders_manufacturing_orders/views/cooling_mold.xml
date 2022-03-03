@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- cooling.mold tree view -->
+  <record id="cooling_view_tree" model="ir.ui.view">
+    <field name="name">cooling.mold.view.tree</field>
+    <field name="model">cooling.mold</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- cooling.mold action window -->
+  <record id="cooling_action" model="ir.actions.act_window">
+    <field name="name">Cooling</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">cooling.mold</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Cooling
+      </p><p>
+        <!-- More details about what a user can do with this object will be OK --> 
+      </p>
+    </field>
+  </record>
+  
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="cooling_menu_act" 
+            name="Cooling" 
+            parent="mcs_aul_sales_orders_manufacturing_orders.master_mold_menu_act" 
+            action="mcs_aul_sales_orders_manufacturing_orders.cooling_action" 
+            sequence="7"/>
+
+</odoo>

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- problem.mold tree view -->
+  <record id="problem_mold_view_tree" model="ir.ui.view">
+    <field name="name">problem.mold.view.tree</field>
+    <field name="model">problem.mold</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- problem.mold action window -->
+  <record id="problem_mold_action" model="ir.actions.act_window">
+    <field name="name">Problem Mold</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">problem.mold</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Problem Mold
+      </p><p>
+        <!-- More details about what a user can do with this object will be OK --> 
+      </p>
+    </field>
+  </record>
+  
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="problem_mold_menu_act" 
+            name="Problem Mold" 
+            parent="mcs_aul_sales_orders_manufacturing_orders.master_mold_menu_act" 
+            action="mcs_aul_sales_orders_manufacturing_orders.problem_mold_action" 
+            sequence="4"/>
+
+</odoo>

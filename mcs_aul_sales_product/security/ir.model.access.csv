@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_button_approval_product_user,Access Button Approval Product User,model_product_template,mcs_aul_sales_product.group_user,0,0,0,0
+access_button_approval_product_admin,Access Button Approval Product Admin,model_product_template,mcs_aul_sales_product.group_admin,1,1,1,1

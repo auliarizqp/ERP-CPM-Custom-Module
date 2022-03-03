@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- robot.mold tree view -->
+  <record id="robot_view_tree" model="ir.ui.view">
+    <field name="name">robot.mold.view.tree</field>
+    <field name="model">robot.mold</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- robot.mold action window -->
+  <record id="robot_action" model="ir.actions.act_window">
+    <field name="name">Robot</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">robot.mold</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Robot
+      </p><p>
+        <!-- More details about what a user can do with this object will be OK --> 
+      </p>
+    </field>
+  </record>
+  
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="robot_menu_act" 
+            name="Robot" 
+            parent="mcs_aul_sales_orders_manufacturing_orders.master_mold_menu_act" 
+            action="mcs_aul_sales_orders_manufacturing_orders.robot_action" sequence="6"/>
+
+</odoo>

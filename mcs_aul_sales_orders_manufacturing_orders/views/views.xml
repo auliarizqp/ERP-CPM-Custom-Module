@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  
+  <!-- sale.order inherit form view -->
+  <record id="change_attrs_field_so_view_id" model="ir.ui.view">
+    <field name="name">change_attrs_field_so_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group[1]/group[1]/field[@name='partner_invoice_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//sheet/group[1]/group[1]/field[@name='partner_shipping_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//notebook/page[1]/field[@name='order_line']/tree/field[@name='tax_id']" position="after">
+        <field name="total_semua" widget='monetary' options="{'currency_field': 'currency_id'}" force_save="1"/>
+      </xpath>
+      <xpath expr="//field[@name='payment_term_id']" position="attributes">
+        <attribute name="force_save">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.production inherit form view -->
+  <record id="inherit_buntton_mrp_production_view_id" model="ir.ui.view">
+    <field name="name">inherit_buntton_mrp_production_view_id</field>
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="mrp.mrp_production_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//header/button[@name='action_assign']" position="after">
+        <button name="check_equipment_a" attrs="{'invisible': ['|', '|', ('is_locked', '=', False), ('state', 'in', ('draft', 'done', 'cancel')), ('reservation_state', '=', 'assigned')]}" string="Check equipment" type="object" class="oe_highlight"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="change_position_search_pt_view_id" model="ir.ui.view">
+    <field name="name">change_position_search_pt_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="dn_inventory_cpm.view_product_filter_inherit"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="before">
+        <xpath expr="//field[@name='item_number']" position="move"/>
+        <xpath expr="//field[@name='part_number']" position="move"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.routing inherit form view -->
+  <record id="change_fields_view_id" model="ir.ui.view">
+    <field name="name">mrp.routing.inherit.view.form</field>
+    <field name="model">mrp.routing.workcenter</field>
+    <field name="inherit_id" ref="mrp.mrp_routing_workcenter_tree_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='time_cycle']" position="attributes">
+        <attribute name="string">Duration (Seconds)</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.workorder inherit form view -->
+  <record id="inherit_button_view_id" model="ir.ui.view">
+    <field name="name">mrp.workorder.inherit.view.form</field>
+    <field name="model">mrp.workorder</field>
+    <field name="inherit_id" ref="mrp_maintenance.mrp_workorder_tablet_view_form_inherit_maintenance"/>
+    <field name="arch" type="xml">
+      <xpath expr="//button[@name='button_maintenance_req']" position="after">
+        <button name="action_persiapan_mold" type="object" string="Persiapan Mold" class="btn btn-warning btn-block"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.workorder inherit form view -->
+  <record id="inherit_page_persiapan_mold_view_id" model="ir.ui.view">
+    <field name="name">mrp.workorder.inherit.view.form</field>
+    <field name="model">mrp.workorder</field>
+    <field name="inherit_id" ref="mrp.mrp_production_workorder_form_view_inherit"/>
+    <field name="arch" type="xml">
+      <xpath expr="//page[@name='workorder_page_misc']" position="after">
+        <page name="downtime_mold" string="Downtime Mold">
+          <group>
+            <group>
+              <field name="dandori_mold" force_save="1" readonly="1"/>
+              <field name="persiapan_proses_mold" force_save="1" readonly="1"/>
+              <field name="setting_kondisi_mold" force_save="1" readonly="1"/>
+              <field name="problem_mold" force_save="1" readonly="1"/>
+              <field name="problem_mesin_mold" force_save="1" readonly="1"/>
+              <field name="robot_mold" force_save="1" readonly="1"/>
+              <field name="cooling_mold" force_save="1" readonly="1"/>
+              <field name="matl_mold" force_save="1" readonly="1"/>
+              <field name="utility_mold" force_save="1" readonly="1"/>
+            </group>
+          </group>
+        </page>
+        <page name="validate" string="Validate">
+          <field name="validate_id" readonly="0">
+            <tree delete="1">
+              <field name="datetime"/>
+              <field name="user_id"/>
+              <field name="type"/>
+              <field name="ok_qty_prod"/>
+              <field name="ng_qty_prod"/>
+              <field name="ok_qty"/>
+              <field name="hold_ok_qty"/>
+              <field name="ng_qty"/>
+            </tree>
+            <form>
+              <group invisible="1">
+                <field name="prod_done_flag"/>
+                <field name="mrp_id"/>
+                <field name="ok_qty_prod"/>
+                <field name="datetime"/>
+                <field name="user_id"/>
+                <field name="type"/>
+              </group>
+              <group string="Produksi" attrs="{'invisible': [('type', '!=', 'produksi')]}">
+                <field name="ok_qty_prod"/>
+                <field name="ng_qty_prod"/>
+                <field name="reason_ids">
+                  <tree editable="bottom">
+                    <field name="qty"/>
+                    <field name="type"/>
+                    <field name="inject_reason" attrs="{'invisible': [('type','!=', 'inject')]}"/>
+                    <field name="nd_process_reason" attrs="{'invisible': [('type','=', 'inject')]}"/>
+                  </tree>
+                </field>
+              </group>
+              <group string="Quality" attrs="{'invisible': [('type', '=', 'produksi')]}">
+                <field name="type" invisible="1"/>
+                <field name="ok_qty" style="width:56%"/>
+                <label for="hold_ok_qty" string="Hold"/>
+                <div>
+                  OK <field name="hold_ok_qty" style="width:53%"/> <br/>
+                  Rework <field name="process_qty" style="width:50%"/> <br/>
+                  NG
+                  <field name="reason_ids">
+                    <tree editable="bottom">
+                      <field name="qty"/>
+                      <field name="type"/>
+                      <field name="inject_reason" attrs="{'invisible': [('type','!=', 'inject')]}"/>
+                      <field name="nd_process_reason" attrs="{'invisible': [('type','=', 'inject')]}"/>
+                    </tree>
+                  </field>
+                </div>
+              </group>
+              <footer>
+                <button name="button_process" string="Validate" type="object" class="oe_highlight"/>
+                <button string="Discard" class="oe_link" special="cancel"/>
+              </footer>
+            </form>
+          </field>
+          <group class="oe_subtotal_footer oe_right">
+            <field name="total_hasil_ok_produksi"/>
+            <field name="total_ng"/>
+            <field name="total_hasil_ok"/>
+            <field name="total_hold_ok"/>
+            <field name="total_hold_ng"/>
+          </group>
+        </page>
+        <page name="equipment" string="Equipment">
+          <field name="equipment_id">
+            <tree>
+              <field name="name"/>
+              <field name="nomor_mesin"/>
+              <field name="serial_no"/>
+              <field name="info"/>
+            </tree>
+          </field>
+        </page>
+      </xpath>
+      <xpath expr="//notebook/page[3]//field[@name='time_ids']" position="after">
+        <group class="oe_subtotal_footer oe_right">
+          <field name="total_ng_time_tracking"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="inherit_date_id_view_id" model="ir.ui.view">
+    <field name="name">sale.order.inherit.view.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_quotation_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='create_date']" position="after">
+        <field name="deliver_date"/>
+      </xpath>
+      <xpath expr="//field[@name='commitment_date']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="inherit_date_view_id" model="ir.ui.view">
+    <field name="name">sale.order.inherit.view.form</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='date_order']" position="after">
+        <field name="deliver_date"/>
+      </xpath>
+      <xpath expr="//field[@name='commitment_date']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.production inherit form view -->
+  <record id="add_group_after_tree_view_id" model="ir.ui.view">
+    <field name="name">mrp.production.inherit.view.form</field>
+    <field name="model">mrp.production</field>
+    <field name="inherit_id" ref="cel_custom_cpm.qty_validate_mrp_production_form_view_inherit"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook/page[@name='mo_validate']//field[@name='validate_ids']" position="after">
+        <group class="oe_subtotal_footer oe_right">
+          <field name="total_hasil_ok_produksi"/>
+          <field name="total_ng"/>
+          <field name="total_hasil_ok"/>
+          <field name="total_hold_ok"/>
+          <field name="total_hold_ng"/>
+        </group>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- mrp.workorder inherit form view -->
+  <record id="inherit_time_tracking_field_view_id" model="ir.ui.view">
+    <field name="name">mrp.workorder.inherit.view.form</field>
+    <field name="model">mrp.workorder</field>
+    <field name="inherit_id" ref="cel_custom_cpm.wo_details"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='time_ids']/tree/field[@name='qty']" position="attributes">
+        <attribute name="string">Ok</attribute>
+      </xpath>
+      <xpath expr="//field[@name='time_ids']/tree/field[@name='qty']" position="after">
+        <field name="ng_wc" force_save="1"/>
+        <field name="ng_setting_awal" force_save="1"/>
+        <field name="ng_running" force_save="1"/>
+        <field name="ng_re_setting" force_save="1"/>
+        <field name="hold_wc" force_save="1"/>
+        <field name="ng_ratio" widget="percentage" force_save="1"/>
+        <field name="actual_cycle" widget="float_time" force_save="1"/>
+      </xpath>
+      <xpath expr="//field[@name='time_ids']/form/group/group/field[@name='qty']" position="after">
+        <field name="ng_wc" force_save="1"/>
+        <field name="ng_setting_awal" force_save="1"/>
+        <field name="ng_running" force_save="1"/>
+        <field name="ng_re_setting" force_save="1"/>
+        <field name="hold_wc" force_save="1"/>
+        <field name="ng_ratio" widget="percentage" force_save="1"/>
+        <field name="actual_cycle" widget="float_time" force_save="1"/>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

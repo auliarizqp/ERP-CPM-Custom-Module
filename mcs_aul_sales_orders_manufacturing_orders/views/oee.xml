@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <!-- order production tree view -->
+  <record id="master_oee_view_tree" model="ir.ui.view">
+    <field name="name">master_oee_view_tree</field>
+    <field name="model">master.oee</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="start_date"/>
+        <field name="end_date"/>
+        <field name="oee"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- order production view view -->
+  <record id="master_oee_view_form" model="ir.ui.view">
+    <field name="name">master_oee_view_form</field>
+    <field name="model">master.oee</field>
+    <field name="arch" type="xml">
+      <form string="OEE">
+        <sheet>
+          <group>
+            <group name="group_left">
+              <field name="start_date"/>
+              <field name="end_date"/>
+            </group>
+            <group name="group_right">
+              <field name="oee" widget="percentage"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="master_oee_search_form" model="ir.ui.view">
+    <field name="name">master_oee_search_form</field>
+    <field name="model">master.oee</field>
+    <field name="arch" type="xml">
+      <search string="Search By">
+        <field name="oee"/>
+      </search>
+    </field>
+  </record>
+
+  <!-- model.name action menuitem -->
+  <record id="master_oee_action_id" model="ir.actions.act_window">
+    <field name="name">Order Production</field>
+    <field name="res_model">master.oee</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="search_view_id" ref="mcs_aul_sales_orders_manufacturing_orders.master_oee_search_form"/>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+
+  <!-- model.name action tree -->
+  <record id="master_oee_action_tree_view_id" model="ir.actions.act_window.view">
+    <field name="sequence" eval="1"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="mcs_aul_sales_orders_manufacturing_orders.master_oee_view_tree"/>
+    <field name="act_window_id" ref="mcs_aul_sales_orders_manufacturing_orders.master_oee_action_id"/>
+  </record>
+
+  <!-- model.name action view form -->
+  <record id="master_oee_action_form_view_id" model="ir.actions.act_window.view" >
+    <field name="sequence" eval="2"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="mcs_aul_sales_orders_manufacturing_orders.master_oee_view_form"/>
+    <field name="act_window_id" ref="mcs_aul_sales_orders_manufacturing_orders.master_oee_action_id"/>
+  </record>
+
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="master_oee_menu_act" 
+            name="OEE" 
+            parent="mrp.menu_mrp_bom" 
+            action="mcs_aul_sales_orders_manufacturing_orders.master_oee_action_id" 
+            sequence="100"/>
+
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- dandori.mold tree view -->
+  <record id="dandori_mold_view_tree" model="ir.ui.view">
+    <field name="name">dandori.mold.view.tree</field>
+    <field name="model">dandori.mold</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- dandori.mold action window -->
+  <record id="dandori_mold_action" model="ir.actions.act_window">
+    <field name="name">Dandori</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">dandori.mold</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+      <p class="oe_view_nocontent_create">
+        Dandori
+      </p><p>
+        <!-- More details about what a user can do with this object will be OK --> 
+      </p>
+    </field>
+  </record>
+  
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="master_mold_menu_act" 
+            name="Master Persiapan Mold" 
+            parent="mrp.menu_mrp_configuration"  
+            sequence="10"/>
+
+    <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="dandori_menu_act" 
+            name="Dandori" 
+            parent="mcs_aul_sales_orders_manufacturing_orders.master_mold_menu_act" 
+            action="mcs_aul_sales_orders_manufacturing_orders.dandori_action" 
+            sequence="1"/>
+
+</odoo>
