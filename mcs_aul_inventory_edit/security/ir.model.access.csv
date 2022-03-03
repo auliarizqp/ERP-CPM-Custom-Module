@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_alasan_stock_picking,Access Alasan Stock Picking,model_alasan_stock_picking,,1,1,1,1
+access_wizard_alasan,Access Wizard Alasan,model_wizard_alasan,,1,1,1,1
+access_accounting_button_validate_and_complete, Access Button Validate and Complete Accounting,model_stock_picking,mcs_aul_inventory_edit.group_accounting_button_validate_and_complete,1,1,1,1
+access_inventory_button_validate_and_complete, Access Button Validate and Complete Inventory,model_stock_picking,mcs_aul_inventory_edit.group_inventory_button_validate_and_complete,1,1,1,1

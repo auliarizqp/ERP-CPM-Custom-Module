@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_pricelist,access_product_pricelist,model_product_pricelist,,1,1,1,1
+access_purchase_order,access_purchase_order,model_purchase_order,,1,1,1,1
+access_stock_picking,access_stock_picking,model_stock_picking,,1,1,1,1

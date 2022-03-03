@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  
+  <!-- stock.picking inherit form view -->
+  <record id="delivery_order_move_view_id" model="ir.ui.view">
+    <field name="name">delivery_order_move_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook/page[1]" position="before">
+        <xpath expr="//sheet/notebook/page[3]" position="move"/>
+      </xpath>
+      <xpath expr="//sheet/notebook/page[1]//field[@name='quantity_done']" position="attributes">
+        <attribute name="attrs">{'readonly':[('is_quantity_done_editable', '!=', False)]}</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//header" position="inside">
+        <!-- <button name="action_set_to_draft" type="object" string="Reset to Draft" attrs="{'invisible':[('state','=','draft')]}"/> -->
+        <button name="action_validate_second" type="object" string="Validate Material" attrs="{'invisible':[('state','in',('draft','done'))]}"/>
+      </xpath>
+      <xpath expr="//field[@name='backorder_id']" position="after">
+        <field name="transfer_category"/>
+      </xpath>
+      <xpath expr="//notebook//field[@name='picking_type_code']" position="after">
+        <field name="picking_type_id_compute" invisible="1"/>
+        <field name="act_picking_complete" readonly="1" force_save="1"/>
+        <field name="act_picking_validate" readonly="1" force_save="1"/>
+        <field name="alasan" readonly="1" force_save="1" invisible="1"/>
+        <field name="alasan_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open':True}"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="unlocked_qty_aul_view_id" model="ir.ui.view">
+    <field name="name">unlocked_qty_aul_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="dn_inventory_cpm.view_picking_form2"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='move_ids_without_package']//field[@name='qty_ng']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="add_customer_tree_view_id" model="ir.ui.view">
+    <field name="name">add_customer_tree_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.vpicktree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='scheduled_date']" position="after">
+        <field name="po_customer"/>
+      </xpath>
+      <xpath expr="//field[@name='activity_exception_decoration']" position="after">
+        <field name="picking_type_id_compute" invisible="1" force_save="1"/>
+        <field name="act_picking_complete" invisible="1" force_save="1"/>
+        <field name="act_picking_validate" invisible="1" force_save="1"/>
+        <button name="action_complete" type="object" string="Complete" class="btn btn-primary" attrs="{'invisible':['|',('picking_type_id_compute','!=','BARANG JADI: Release to Customer'), ('act_picking_complete','!=',False)]}" groups="mcs_aul_inventory_edit.group_inventory_button_validate_and_complete"/>
+        <button name="action_validate_accounting" type="object" string="Validate Accounting" class="btn btn-primary" attrs="{'invisible':['|',('picking_type_id_compute','!=','BARANG JADI: Release to Customer'), ('act_picking_validate','!=',False)]}" groups="mcs_aul_inventory_edit.group_accounting_button_validate_and_complete"/>
+        <button name="action_revisi" type="object" string="Revisi" class="btn btn-primary" attrs="{'invisible':[('picking_type_id_compute','!=','BARANG JADI: Release to Customer')]}" groups="mcs_aul_inventory_edit.group_accounting_button_validate_and_complete,mcs_aul_inventory_edit.group_inventory_button_validate_and_complete"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="change_attrs_field_aul_view_id" model="ir.ui.view">
+    <field name="name">sale.blanket.order.inherit.view.form</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//group[@name='group_right']//field[@name='validity_date']" position="attributes">
+        <attribute name="required">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="edit_tree_deliveryor_aul_view_id" model="ir.ui.view">
+    <field name="name">edit_tree_deliveryor_aul_view_id</field>
+    <field name="model">stock.move.line</field>
+    <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='package_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='result_package_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='lot_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="add_field_stock_picking_view_id" model="ir.ui.view">
+    <field name="name">add_field_stock_picking_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="dn_sales_cpm.view_sale_stockpicking_rescheduledate_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='reschedule_state']" position="after">
+        <field name="unloading_area"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="invisible_and_change_name_view_id" model="ir.ui.view">
+    <field name="name">stock.picking.inherit.view.form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="dn_inventory_cpm.view_picking_deliverydate_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='injection_type']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='shift']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='delvery_date']" position="attributes">
+        <attribute name="string">Delivery Date</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="invisible_invoice_view_id" model="ir.ui.view">
+    <field name="name">stock.picking.inherit.view.form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="invoice_from_picking.view_picking_form_inherit_add_field_invoice_state"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='invoice_state']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

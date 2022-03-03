@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- wizard.alasan form view -->
+  <record id="wizard_alasan_view_form" model="ir.ui.view">
+    <field name="name">wizard.alasan.view.form</field>
+    <field name="model">wizard.alasan</field>
+    <field name="priority">999</field>
+    <field name="arch" type="xml">
+      <form string="Revisi">
+        <sheet>
+          <group>
+            <field name="alasan" force_save="1"/>
+            <field name="alasan_id" readonly="0" force_save="1" attrs="{'invisible':[('alasan','!=',True)]}"/>
+          </group>
+        </sheet>
+        <footer>
+          <button name="save_submit" type="object" string="Submit" class="btn btn-primary"/>
+          <button type="object" string="Cancel" special="cancel"/>
+        </footer>
+      </form>
+    </field>
+  </record>
+  
+  <!-- persiapan.mold action window -->
+  <!-- <record id="wizard_persiapan_mold_action" model="ir.actions.act_window">
+    <field name="name">Persiapan Mold</field>
+    <field name="res_model">wizard.persiapan.mold</field>
+    <field name="view_mode">form</field>
+  </record> -->
+
+</odoo>

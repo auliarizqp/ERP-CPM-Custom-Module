@@ -1,0 +1,167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <record id="paperformat_sj_suzuki" model="report.paperformat">
+    <field name="name">SJ Suzuki Sparepart</field>
+    <field name="default" eval="True"/>
+    <field name="format">A5</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">3</field>
+    <field name="margin_bottom">3</field>
+    <field name="margin_left">3</field>
+    <field name="margin_right">3</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">3</field>
+    <field name="dpi">90</field>
+  </record>
+
+  <report id="report_sj_print_suzuki"
+      string="SJ Suzuki Sparepart"
+      model="stock.picking"
+      report_type="qweb-pdf"
+      menu="True"
+      file="mc_aul_reporting_and_report.template_report_sj_print_suzuki"
+      name="mc_aul_reporting_and_report.template_report_sj_print_suzuki"
+      paperformat="mc_aul_reporting_and_report.paperformat_sj_suzuki"/>
+
+  <template id="template_report_sj_print_suzuki">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="web.basic_layout">
+          <t t-set="len_obj" t-value="len(o.move_ids_without_package)"/>
+          <t t-set="f_div" t-value="len_obj // 4"/>
+          <t t-set="mod_div" t-value="len_obj % 4"/>
+          <t t-if="mod_div &gt; 0">
+            <t t-set="f_div" t-value="f_div + 1"/>
+          </t>
+          <t t-set="i_from" t-value="0"/>
+          <t t-set="i_to" t-value="4"/>
+          <t t-foreach="range(f_div)" t-as="r">
+            <div class="page" style="!important;">
+              <table style="width:100%;">
+                <tr>
+                  <td colspan="3" style="text-align:left; font-size:14px; padding:10px;"> PT. CITRA PLASTIK MAKMUR</td>
+                </tr>
+                <tr>
+                  
+                  <td colspan="3" style="text-align:center; font-size:14px; padding:5px;">SURAT JALAN  <span t-esc="lengg"/></td>
+                </tr>
+                <tr>
+                  <td style="text-align:left; font-size:12px; width:15%; padding:3px;">Nomor</td>
+                  <td style="text-align:left; font-size:12px; width:50%; padding:3px;">: <span t-field="o.name"/></td>
+                  <td rowspan="5" style="text-align:left; font-size:12px; border:1px solid #000000; padding:10px;">Kepada Yth,
+                    <br/>
+                    <span style="text-align:center;" t-field="o.partner_id.name"/><br/>
+                    <span style="text-align:center;" t-field="o.partner_id.street"/><br/>
+                    <span style="text-align:center;" t-field="o.partner_id.street2"/><br/>
+                    <span style="text-align:center;" t-field="o.partner_id.city"/><span style="text-align:center;" t-field="o.partner_id.country_id.name"/>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="text-align:left; font-size:12px; width:15%; padding:3px;">P/O No.</td>
+                  <td style="text-align:left; font-size:12px; width:50%; padding:3px;">: <span t-field="o.po_customer"/></td>
+                </tr>
+                <tr>
+                  <td style="text-align:left; font-size:12px; width:15%; padding:3px;">Tanggal</td>
+                  <td style="text-align:left; font-size:12px; width:50%; padding:3px;">: <span t-field="o.date_done"/></td>
+                </tr>
+                <tr>
+                  <td style="text-align:left; font-size:12px; width:15%; padding:3px;">Kendaraan No.</td>
+                  <td style="text-align:left; font-size:12px; width:50%; padding:3px;">: <span t-field="o.vehicle_number"/></td>
+                </tr>
+                <tr/>
+                <tr>
+                  <td colspan="3" style="text-align:left; font-size:14px; padding-left:5px; padding-top:5px;">Dengan Hormat,</td>
+                </tr>
+                <tr>
+                  <td colspan="3" style="text-align:left; padding-left:50px; font-size:14px; padding-left:50px; padding-bottom:5px;">Bersama ini kami mengirimkan barang - barang yang tersebut sbb:</td>
+                </tr>
+                
+              </table>
+              <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+                <tr style="text-align:center;">
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:3px;">Part Number</td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:3px;">Barcode</td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:3px;">Nama Barang</td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:3px;">Qty</td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:3px;">Keterangan</td>
+                </tr>
+              </table>
+              <table style="border:1px solid #000000; width:100%; border-collapse:collapse;  height: 200px;">
+                <t t-set="index" t-value="0"/> 
+                <t t-foreach="o.move_ids_without_package" t-as="line">
+                  <t t-if="index &gt;= i_from and index &lt; i_to">
+                    <tr style="text-align:center;">
+                      <td style="border-left:1px solid #000000; border-right:1px solid #000000; width:20%; padding:5px;">
+                        <span t-field="line.product_id.part_number"/>
+                      </td>
+                      <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', line.product_id.barcode, 600, 100)" style="width:125px; height:30px;"/>
+                      </td>
+                      <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                        <span t-field="line.product_id.name"/>
+                      </td>
+                      <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                        <span t-field="line.quantity_done"/>
+                        <span t-field="line.product_uom.name"/>
+                      </td>
+                      <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                        <span t-field="o.note"/>
+                      </td>
+                    </tr>
+                  </t>
+                  <t t-set="index" t-value="index+1"/>
+                </t>
+                <t t-set="i_from" t-value="i_to"/>
+                <t t-set="i_to" t-value="i_to + 4"/>
+              </table>
+              <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+                <tr style="text-align:center;">
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                    Diterima Oleh,
+                    <br/><br/><br/>
+                    (____________)
+                  </td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                    Pengirim,
+                    <br/><br/><br/>
+                    (____________)
+                  </td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                    Satpam,
+                    <br/><br/><br/>
+                    (____________)
+                  </td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                    Gudang,
+                    <br/><br/><br/>
+                    (____________)
+                  </td>
+                  <td style="border:1px solid #000000; font-size:12px; width:20%; padding:5px;">
+                    Hormat Kami,
+                    <br/><br/><br/>
+                    (____________)
+                  </td>
+                </tr>
+                <tr>
+                  <td/>
+                  <td colspan="4" style="font-size:12px; border:1px solid #000000; padding:5px">Putih asli Customer (Saat Penagihan), Merah: Finance, Putih: Customer, Biru: Customer ,Hijau: PPIC</td>
+                </tr>
+                <tr>
+                  <td style="font-size:12px; border:1px solid #000000; padding:5px">No. Doc. </td>
+                  <td colspan="2" style="font-size:12px; border:1px solid #000000; padding:5px">Tgl Pembuatan: <span t-field="o.report_date_now"/></td>
+                  <td style="font-size:12px; border:1px solid #000000; padding:5px">Rev: </td>
+                  <td style="font-size:12px; border:1px solid #000000; padding:5px">Hal: </td>
+                </tr>
+              </table>
+            </div>
+            <div style="page-break-after: always;"/>
+          </t>
+        </t>
+      </t>
+    </t>
+  </template>
+
+</odoo>

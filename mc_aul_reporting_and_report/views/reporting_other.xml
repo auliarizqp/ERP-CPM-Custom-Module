@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- order production tree view -->
+  <record id="model_order_production_view_tree" model="ir.ui.view">
+    <field name="name">model_order_production_view_tree</field>
+    <field name="model">x_ks_cr.ks_so4</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_ks_default_code"/>
+        <field name="x_ks_name"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- order production view view -->
+  <record id="model_order_production_view_form" model="ir.ui.view">
+    <field name="name">model_order_production_view_form</field>
+    <field name="model">x_ks_cr.ks_so4</field>
+    <field name="arch" type="xml">
+      <form string="Order Production">
+        <sheet>
+          <group name="group_left">
+            <field name="x_name"/>
+            <field name="x_ks_name"/>
+            <field name="x_ks_default_code"/>
+          </group>
+          <group name="group_right">
+            <field name="konfirmasi_ppic"/>
+            <field name="date_input" attrs="{'invisible':[('konfirmasi_ppic','==',False)]}"/>
+            <field name="remarks" attrs="{'invisible':[('konfirmasi_ppic','==',False)]}"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- model.name action menuitem -->
+  <record id="reporting_other_production_action_id" model="ir.actions.act_window">
+    <field name="name">Order Production</field>
+    <field name="res_model">x_ks_cr.ks_so4</field>
+  </record>
+
+  <!-- model.name action tree -->
+  <record id="reporting_other_production_action_tree_view_id" model="ir.actions.act_window.view">
+    <field name="sequence" eval="1"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="mc_aul_reporting_and_report.model_order_production_view_tree"/>
+    <field name="act_window_id" ref="mc_aul_reporting_and_report.reporting_other_production_action_id"/>
+  </record>
+
+  <!-- model.name action view form -->
+  <record id="reporting_other_production_action_form_view_id" model="ir.actions.act_window.view" >
+    <field name="sequence" eval="2"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="mc_aul_reporting_and_report.model_order_production_view_form"/>
+    <field name="act_window_id" ref="mc_aul_reporting_and_report.reporting_other_production_action_id"/>
+  </record>
+
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="reporting_other_production_menu_act" 
+            name="Order Production" 
+            parent="sale.menu_sale_report" 
+            action="mc_aul_reporting_and_report.reporting_other_production_action_id" 
+            sequence="40"/>
+
+</odoo>

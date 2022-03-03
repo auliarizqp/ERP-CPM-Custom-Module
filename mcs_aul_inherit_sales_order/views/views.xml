@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  
+  <!-- sale.order inherit form view -->
+  <record id="inherit_after_sale_forecast_view_id" model="ir.ui.view">
+    <field name="name">inherit_after_sale_forecast_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="mcs_aul_cpm_add_and_remove.sales_order_remove_field_view_id"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group/group[1]/field[@name='sales_forecast']" position="after">
+        <field name="partner_shipping_id" context="{'default_type':'delivery'}" options="{&quot;always_reload&quot;: True}"/>
+        <field name="partner_invoice_id" readonly="1" context="{'default_type':'invoice'}" options="{&quot;always_reload&quot;: True}"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- purchase.order inherit form view -->
+  <record id="change_name_view_id" model="ir.ui.view">
+    <field name="name">change_name_view_id</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="attributes">
+        <attribute name="string">PO No</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- purchase.order inherit form view -->
+  <record id="change_name_po_view_id" model="ir.ui.view">
+    <field name="name">change_name_po_view_id</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='name']" position="attributes">
+        <attribute name="string">PO No</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="change_position_field_product_template_view_id" model="ir.ui.view">
+    <field name="name">change_position_field_product_template_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='part_number']" position="after">
+        <xpath expr="//field[@name='name']" position="move"/>
+      </xpath>
+      <xpath expr="//field[@name='name']" position="after">
+        <xpath expr="//field[@name='partner_id']" position="move"/>
+      </xpath>
+      <xpath expr="//field[@name='partner_id']" position="after">
+        <xpath expr="//field[@name='mode']" position="move"/>
+      </xpath>
+      <xpath expr="//field[@name='mode']" position="after">
+        <xpath expr="//field[@name='categ_id']" position="move"/>
+      </xpath>
+    
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="change_attrs_view_id" model="ir.ui.view">
+    <field name="name">change_attrs_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group/group[2]/field[@name='scheduled_date']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- setu.inventory.ledger.bi.report inherit form view -->
+  <record id="change_name_field_end_view_id" model="ir.ui.view">
+    <field name="name">change_name_field_end_view_id</field>
+    <field name="model">setu.inventory.ledger.bi.report</field>
+    <field name="inherit_id" ref="setu_inventory_ledger_report.setu_inventory_ledger_bi_report_tree"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='closing']" position="attributes">
+        <attribute name="string">Ending Balance</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- setu.inventory.ledger.bi.report inherit form view -->
+  <record id="change_name_field_view_id" model="ir.ui.view">
+    <field name="name">change_name_field_view_id</field>
+    <field name="model">setu.inventory.ledger.bi.report</field>
+    <field name="inherit_id" ref="setu_inventory_ledger_report.setu_inventory_ledger_bi_report_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group[2]/div/table/h2/tr[1]/th[4]/label[@for='closing']" position="attributes">
+        <attribute name="string">Ending Balance</attribute>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

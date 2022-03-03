@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- order production tree view -->
+  <record id="item_number_view_tree" model="ir.ui.view">
+    <field name="name">item_number_view_tree</field>
+    <field name="model">master.item.number</field>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="item_number"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- order production view view -->
+  <record id="item_number_view_form" model="ir.ui.view">
+    <field name="name">item_number_view_form</field>
+    <field name="model">master.item.number</field>
+    <field name="arch" type="xml">
+      <form string="Master Data Item Number">
+        <sheet>
+          <group name="group_left">
+            <field name="item_number"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- order production search view -->
+  <record id="item_number_search_form" model="ir.ui.view">
+    <field name="name">item_number_search_form</field>
+    <field name="model">master.item.number</field>
+    <field name="arch" type="xml">
+      <search string="Search By">
+        <field name="item_number"/>
+        <!-- <field name="product"/> -->
+      </search>
+    </field>
+  </record>
+
+  <!-- model.name action menuitem -->
+  <record id="item_number_action_id" model="ir.actions.act_window">
+    <field name="name">Item Number Product</field>
+    <field name="res_model">master.item.number</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="search_view_id" ref="mc_aul_reporting_and_report.item_number_search_form"/>
+    <field name="domain">[]</field>
+    <field name="context">{}</field>
+  </record>
+
+  <!-- model.name action tree -->
+  <record id="item_number_action_tree_view_id" model="ir.actions.act_window.view">
+    <field name="sequence" eval="1"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="mc_aul_reporting_and_report.item_number_view_tree"/>
+    <field name="act_window_id" ref="mc_aul_reporting_and_report.item_number_action_id"/>
+  </record>
+
+  <!-- model.name action view form -->
+  <record id="item_number_action_form_view_id" model="ir.actions.act_window.view" >
+    <field name="sequence" eval="2"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="mc_aul_reporting_and_report.item_number_view_form"/>
+    <field name="act_window_id" ref="mc_aul_reporting_and_report.item_number_action_id"/>
+  </record>
+
+  <!-- model.name action view search -->
+  <!-- <record id="item_number_action_search_view_id" model="ir.actions.act_window.view" >
+    <field name="sequence" eval="3"/>
+    <field name="view_mode">search</field>
+    <field name="view_id" ref="mc_aul_reporting_and_report.item_number_search_form"/>
+    <field name="act_window_id" ref="mc_aul_reporting_and_report.item_number_action_id"/>
+  </record> -->
+
+  <!-- This Menu Item must have a parent and an action -->
+  <menuitem id="item_number_menu_act" 
+            name="Item Number Product" 
+            parent="purchase.menu_product_in_config_purchase" 
+            action="mc_aul_reporting_and_report.item_number_action_id" 
+            sequence="20"/>
+
+</odoo>

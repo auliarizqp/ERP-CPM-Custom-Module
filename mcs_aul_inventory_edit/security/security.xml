@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <record model="ir.module.category" id="inventory_button_validate_and_complete">
+        <field name="name">Complete and Validate Inventory</field>
+    </record>
+
+    <record model="res.groups" id="group_accounting_button_validate_and_complete">
+        <field name="name">Accounting</field>
+        <field name="category_id" ref="inventory_button_validate_and_complete"/>
+    </record>
+    
+    <record model="res.groups" id="group_inventory_button_validate_and_complete">
+        <field name="name">Inventory</field>
+        <field name="category_id" ref="inventory_button_validate_and_complete"/>
+    </record>
+
+</odoo>

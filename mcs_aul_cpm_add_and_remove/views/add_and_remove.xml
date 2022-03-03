@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <record model="ir.ui.menu" id="sale_blanket_order.menu_blanket_order_config">
+    <field name="name">Sales Forecast</field>
+  </record>
+
+  <record model="ir.ui.menu" id="sale_blanket_order.menu_sale_blanket_order_line">
+    <field name="name">Sales Forecast Lines</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="sale_blanket_order.act_open_blanket_order_view">
+    <field name="name">Sales Forecast</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="sale_blanket_order.act_open_sale_blanket_order_lines_view_tree">
+    <field name="name">Sales Forecast Lines</field>
+  </record>
+  
+  <!-- res.partner inherit form view -->
+  <record id="sales_customer_field_size_view_id" model="ir.ui.view">
+    <field name="name">sales_customer_field_size_view_id</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//sheet/div/h1/field[@name='name']" position="replace">
+        <field name="name" style="width: 75%;" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+      </xpath>
+      
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="sales_order_remove_field_view_id" model="ir.ui.view">
+    <field name="name">sales_order_remove_field_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//sheet/group/group[1]/field[@name='sale_order_template_id']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+
+      <xpath expr="//sheet/group/group[1]/field[@name='partner_id']" position="after">
+        <field name="sales_forecast"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="npwp_invisible_view_id" model="ir.ui.view">
+    <field name="name">npwp_invisible_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="dn_sales_cpm.view_order_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='npwp']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="no_idn_invisible_view_id" model="ir.ui.view">
+    <field name="name">no_idn_invisible_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="rnf_cpm_custom.inherit_sale_order"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='no_dn']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="cost_remove_view_id" model="ir.ui.view">
+    <field name="name">cost_remove_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_tree_view"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='standard_price']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    
+    </field>
+  </record>
+
+  <!-- molding.depreciation inherit form view -->
+  <record id="add_field_and_remove_view_id" model="ir.ui.view">
+    <field name="name">add_field_and_remove_view_id</field>
+    <field name="model">molding.depreciation</field>
+    <field name="inherit_id" ref="dn_molding_depreciation_cpm.view_account_molding_depreciation_form"/>
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='commulative']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+
+      <xpath expr="//sheet/notebook/page[1]/field[@name='line_ids']/tree/field[@name='total_delivery']" position="after">
+        <field name="sisa_depreciation"/>
+      </xpath>
+    
+    </field>
+  </record>
+
+</odoo>

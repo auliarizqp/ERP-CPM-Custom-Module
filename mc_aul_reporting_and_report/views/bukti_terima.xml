@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <record id="paperformat_bukti_terima_barang" model="report.paperformat">
+    <field name="name">Bukti Terima Barang</field>
+    <field name="default" eval="True"/>
+    <field name="format">A4</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Portrait</field>
+    <field name="margin_top">3</field>
+    <field name="margin_bottom">3</field>
+    <field name="margin_left">3</field>
+    <field name="margin_right">3</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">3</field>
+    <field name="dpi">90</field>
+  </record>
+
+  <report id="report_bukti_terima_barang"
+      string="Bukti Terima Barang"
+      model="stock.picking"
+      report_type="qweb-pdf"
+      menu="True"
+      file="mc_aul_reporting_and_report.template_report_bukti_terima_barang"
+      name="mc_aul_reporting_and_report.template_report_bukti_terima_barang"
+      paperformat="mc_aul_reporting_and_report.paperformat_bukti_terima_barang"/>
+
+  <template id="template_report_bukti_terima_barang">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="o">
+        <t t-call="web.basic_layout">
+          <div class="page" style="!important;">
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+              <tbody>
+                <tr style="">
+                  <td rowspan="5" style="border:1px solid #000000; text-align: center; width:25%;" >
+                    <img src="https://siva.jsstatic.com/id/32942/images/logo/32942_logo_0_68073.jpg" style="padding:1px;" alt="Logo" width="250" height="150"/>
+                  </td>
+                  <th style="text-align: center; font-size: 18px; padding: 10px; border:1px solid #000000; width:40%;" rowspan="5">Bukti Terima Barang<br />
+                    <br/>
+                    <br/>
+                    <!-- <span style="padding-right: 90px;">No. Bukti : <span t-field="o.name"/></span> -->
+                  </th>
+                </tr>
+                <tr style="font-size: 11px; width:25%;">
+                  <td style="padding: 5px; border:1px solid #000000; width:15%;">No.Dok</td>
+                  <td style="padding: 5px; border:1px solid #000000; width:10%;">: </td>
+                </tr>
+                <tr style="font-size: 11px; width:25%;">
+                  <td style="padding: 5px; border:1px solid #000000; width:15%;">Tanggal Pembuatan</td>
+                  <td style="padding: 5px; border:1px solid #000000; width:10%;">:</td>
+                </tr>
+                <tr style="font-size: 11px; width:25%;">
+                  <td style="padding: 5px; border:1px solid #000000; width:15%;">Revisi</td>
+                  <td style="padding: 5px; border:1px solid #000000; width:10%;">: </td>
+                </tr>
+                <tr style="font-size: 11px; width:25%;">
+                  <td style="padding: 5px; border:1px solid #000000; width:15%;">Halaman</td>
+                  <td style="padding: 5px; width:10%;">:</td>
+                </tr>
+              </tbody>
+            </table>
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+              <tr>
+                <td style="padding: 5px; font-size:12px; width: 20%">Tanggal</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.delvery_date"/></td>
+                <td style="padding: 5px; font-size:12px;  width: 20%">No Bukti</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.name"/></td>
+              </tr>
+              <tr>
+                <td style="padding: 5px; font-size:12px;  width: 20%">Terima Dari</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.partner_id"/></td>
+                <td style="padding: 5px; font-size:12px;  width: 20%">No PO</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.origin"/></td>
+              </tr>
+              <tr>
+                <td style="padding: 5px; font-size:12px;  width: 20%">No. Surat Jalan</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.no_sj"/></td>
+                <td style="padding: 5px; font-size:12px;  width: 20%">Gudang</td>
+                <td style="padding: 5px; font-size:12px;  width: 30%">: <span t-field="o.picking_type_id.warehouse_id.name"/></td>
+              </tr>
+            </table>
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+              <tr style="text-align:center;">
+                <td style="border:1px solid #000000; font-size:12px; width:5%; padding:3px;">No</td>
+                <td style="border:1px solid #000000; font-size:12px; width:35%; padding:3px;">Nama Barang</td>
+                <td style="border:1px solid #000000; font-size:12px; width:15%; padding:3px;">Item Code</td>
+                <td style="border:1px solid #000000; font-size:12px; width:15%; padding:3px;">Lot No</td>
+                <td style="border:1px solid #000000; font-size:12px; width:15%; padding:3px;">Qty</td>
+                <td style="border:1px solid #000000; font-size:12px; width:15%; padding:3px;">Keterangan</td>
+              </tr>
+            </table>
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;  height: 400px;">
+              <t t-set="index" t-value="1"/>
+              <t t-foreach="o.move_line_ids_without_package" t-as="line">
+                <tr style="text-align:center;">
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:5%;">
+                    <span style="display:inline-block;" t-esc="index"/>
+                  </td>
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:35%;">
+                    <span t-field="line.product_id.name"/>
+                  </td>
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
+                    <span t-field="line.product_id.item_number"/>
+                  </td>
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
+                    <!-- <span t-field=""/> -->
+                  </td>
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
+                    <span t-field="line.product_uom_qty"/>
+                    <span t-field="line.product_id.uom_id.name"/>
+                  </td>
+                  <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
+                    <!-- <span t-field=""/> -->
+                  </td>
+                  <t t-set="index" t-value="index+1"/>
+                </tr>
+              </t>
+            </table>
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
+              <tr style="text-align:center;">
+                <td style="font-size:12px; width:33%; padding:5px;">
+                  Diserahkan Oleh,
+                  <br/><br/><br/><br/>
+                  (____________)
+                </td>
+                <td style="font-size:12px; width:34%; padding:5px;">
+                  Disetujui Oleh,
+                  <br/><br/><br/><br/>
+                  (____________)
+                </td>
+                <td style="font-size:12px; width:33%; padding:5px;">
+                  Diterima Oleh,
+                  <br/><br/><br/><br/>
+                  (____________)
+                </td>
+              </tr>
+            </table>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+
+</odoo>

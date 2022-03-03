@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+  <!-- stock.picking inherit form view -->
+  <record id="inherit_balance_rfq_view_id" model="ir.ui.view">
+    <field name="name">inherit_balance_rfq_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
+        <field name="balance"/>
+      </xpath>
+      <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
+        <field name="part_number" readonly="1" force_save="1"/>
+        <field name="item_number" readonly="0" force_save="1"/>
+      </xpath>
+      <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="attributes">
+        <attribute name="force_save">1</attribute>
+      </xpath>
+      <xpath expr="//sheet/group/group[1]/field[@name='picking_type_id']" position="attributes">
+        <attribute name="attrs">{'readonly':[('state','==','done')]}</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="invisible_part_number_view_id" model="ir.ui.view">
+    <field name="name">invisible_part_number_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="dn_inventory_cpm.view_picking_form2"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='move_ids_without_package']//field[@name='part_number']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.pricelist inherit form view -->
+  <record id="invisible_date_view_id" model="ir.ui.view">
+    <field name="name">invisible_date_view_id</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='date_start']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='date_end']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="invisible_mc_number_view_id" model="ir.ui.view">
+    <field name="name">invisible_mc_number_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="dn_inventory_cpm.inherit_product_template"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='mc_number']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <record id="invisible_barcode_view_id" model="ir.ui.view">
+    <field name="name">invisible_barcode_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="product.product_template_only_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='barcode']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="invisible_sales_category_view_id" model="ir.ui.view">
+    <field name="name">invisible_sales_category_view_id</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="dn_sales_cpm.inherit_sales_blanket_order"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='sales_category']" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- purchase.order inherit form view -->
+  <record id="inherit_balance_po_view_id" model="ir.ui.view">
+    <field name="name">inherit_balance_po_view_id</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook//field[@name='order_line']/tree/field[@name='qty_received']" position="after">
+        <field name="balance"/>
+      </xpath>
+      <xpath expr="//sheet/notebook//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.template inherit form view -->
+  <!-- <record id="not_readonly_item_code_view_id" model="ir.ui.view">
+    <field name="name">not_readonly_item_code_view_id</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="rnf_cpm_custom.inherit_product_template"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='item_number']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+      <xpath expr="//field[@name='item_number']" position="attributes">
+        <attribute name="force_save">1</attribute>
+      </xpath>
+    </field>
+  </record> -->
+
+  <!-- molding.depreciation inherit form view -->
+  <record id="false_readonly_product_view_id" model="ir.ui.view">
+    <field name="name">false_readonly_product_view_id</field>
+    <field name="model">molding.depreciation</field>
+    <field name="inherit_id" ref="dn_molding_depreciation_cpm.view_account_molding_depreciation_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="////sheet/group/group[1]/field[@name='product_id']" position="attributes">
+        <attribute name="required">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- purchase.request inherit form view -->
+  <record id="readonly_product_id_view_id" model="ir.ui.view">
+    <field name="name">readonly_product_id_view_id</field>
+    <field name="model">purchase.request</field>
+    <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/notebook//field[@name='line_ids']//field[@name='product_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="readonly_not_part_number_view_id" model="ir.ui.view">
+    <field name="name">readonly_not_part_number_view_id</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="dn_sales_cpm.inherit_sales_blanket_order"/>
+    <field name="arch" type="xml">
+      <xpath expr="////field[@name='line_ids']//tree//field[@name='part_number']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="readonly_product_id_blanket_view_id" model="ir.ui.view">
+    <field name="name">readonly_product_id_blanket_view_id</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="////field[@name='line_ids']//tree//field[@name='product_id']" position="attributes">
+        <attribute name="readonly">1</attribute>
+        <attribute name="force_save">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="readonly_not_part_number_sale_view_id" model="ir.ui.view">
+    <field name="name">readonly_not_part_number_sale_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="dn_sales_cpm.view_order_qty_outstanding_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="////field[@name='order_line']//tree//field[@name='part_number']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.order inherit form view -->
+  <record id="readonly_product_id_sale_view_id" model="ir.ui.view">
+    <field name="name">readonly_product_id_sale_view_id</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="////field[@name='order_line']//tree//field[@name='product_id']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- purchase.order inherit form view -->
+  <record id="not_readonly_item_numbers_view_id" model="ir.ui.view">
+    <field name="name">not_readonly_item_numbers_view_id</field>
+    <field name="model">purchase.order</field>
+    <field name="inherit_id" ref="dn_purchase_cpm.view_purchase_part_num_line"/>
+    <field name="arch" type="xml">
+      <xpath expr="////sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='item_number']" position="attributes">
+        <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+</odoo>

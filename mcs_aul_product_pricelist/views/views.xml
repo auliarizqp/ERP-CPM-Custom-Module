@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+  
+  <!-- This Menu Item must have a parent and an action -->
+  <record id="dn_sales_cpm.menu_sale_report_diff" model="ir.ui.menu">
+    <field name="name">Monthly Report</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="dn_sales_cpm.act_menu_salesreport_diff">
+    <field name="name">Monthly Report</field>
+  </record>
+
+  <!-- product.pricelist inherit form view -->
+  <record id="change_attrs_and_andd_field_view_id" model="ir.ui.view">
+    <field name="name">change_attrs_and_andd_field_view_id</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view"/>
+    <field name="arch" type="xml">
+      
+      <!-- <xpath expr="//notebook/page[1]/field[@name='item_ids']/tree" position="attributes">
+        <attribute name="editable">1</attribute>
+      </xpath> -->
+
+      <xpath expr="//sheet/group/group[1]" position="after">
+        <group name='pricelist_right'>
+          <field name="start_date"/>
+          <field name="end_date"/>
+        </group>
+      </xpath>
+
+      <xpath expr="//sheet/group/group[1]/field[@name='currency_id']" position="before">
+        <field name="customers" options="{'no_open':True,'no_create':True}" required="1"/>
+      </xpath>
+
+    </field>
+  </record>
+
+  <!-- res.partner inherit form view -->
+  <record id="hide_page_notebook_view_id" model="ir.ui.view">
+    <field name="name">hide_page_notebook_view_id</field>
+    <field name="model">res.partner</field>
+    <field name="inherit_id" ref="mcs_contacts_ext.view_sosmed_form_inherited"/>
+    <field name="arch" type="xml">
+      <xpath expr="//notebook/page[7]" position="attributes">
+        <attribute name="invisible">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="move_position_view_id" model="ir.ui.view">
+    <field name="name">move_position_view_id</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="dn_sales_cpm.inherit_sales_blanket_order"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='product_id']" position="before">
+        <xpath expr="//field[@name='part_number']" position="move"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- sale.blanket.order inherit form view -->
+  <record id="invisible_validity_date_view_id" model="ir.ui.view">
+    <field name="name">invisible_validity_date_view_id</field>
+    <field name="model">sale.blanket.order</field>
+    <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group/group[2]/field[@name='validity_date']" position="attributes">
+        <attribute name="attrs">{'required':[('state','not in',('draft','open','done','expired'))]}</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- stock.picking inherit form view -->
+  <record id="change_attrs_location_dest_view_id" model="ir.ui.view">
+    <field name="name">change_attrs_location_dest_view_id</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group/group[1]/field[@name='location_dest_id']" position="attributes">
+        <attribute name="options">{'no_create':False}</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- product.pricelist inherit form view -->
+  <record id="replace_pricelist_view_id" model="ir.ui.view">
+    <field name="name">product.pricelist.inherit.view.form</field>
+    <field name="model">product.pricelist</field>
+    <field name="inherit_id" ref="product.product_pricelist_view_inherit"/>
+    <field name="arch" type="xml">
+      <field name="item_ids" position="replace">
+        <field name="item_ids" nolabel="1" context="{'default_base':'list_price'}" groups="product.group_product_pricelist">
+          <tree string="Pricelist Items">
+            <field name="part_number" force_save="1"/>
+            <field name="product_tmpl_id" string="Products" required="1" force_save="1"/>
+            <field name="product_id" string="Variants" groups="product.group_product_variant" domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create':1}"/>
+            <field name="min_quantity"/>
+            <field name="fixed_price" string="Price"/>
+            <field name="currency_id" invisible="1"/>
+            <field name="pricelist_id" invisible="1"/>
+            <!-- Pricelist ID is here only for related fields to be correctly computed -->
+            <field name="base" invisible="1"/>
+            <field name="applied_on" invisible="1"/>
+            <field name="company_id" invisible="1"/>
+          </tree>
+        </field>
+      </field>
+    </field>
+  </record>
+
+  <!-- product.pricelist inherit form view -->
+  <record id="form_tree_view_view_id" model="ir.ui.view">
+    <field name="name">product.pricelist.inherit.tree.view.form</field>
+    <field name="model">product.pricelist.item</field>
+    <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+    <field name="arch" type="xml">
+      <form position="replace">
+        <form>
+          <group>
+            <group>
+              <field name="part_number" force_save="1"/>
+              <field name="product_tmpl_id" string="Products" required="1" force_save="1"/>
+              <field name="product_id" string="Variants" groups="product.group_product_variant" domain="[('product_tmpl_id', '=', product_tmpl_id)]" options="{'no_create':1}"/>
+              <field name="min_quantity"/>
+              <field name="fixed_price" string="Price"/>
+              <field name="currency_id" invisible="1"/>
+              <field name="pricelist_id" invisible="1"/>
+              <!-- Pricelist ID is here only for related fields to be correctly computed -->
+              <field name="base" invisible="1"/>
+              <field name="applied_on" invisible="1"/>
+              <field name="company_id" invisible="1"/>
+            </group>
+          </group>
+        </form>
+      </form>
+    </field>
+  </record>
+
+</odoo>
