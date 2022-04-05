@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+
+    <report id="report_delivery_order_status_excel"
+            string="Delivery Order Status Excel"
+            model="stock.picking"
+            report_type="xlsx"
+            file="Delivery Order Status"
+            name="mcs_aul_inventory_edit.rdoseid"/>
+
+</odoo>

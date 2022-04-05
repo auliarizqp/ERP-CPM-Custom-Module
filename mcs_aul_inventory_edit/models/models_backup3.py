@@ -55,30 +55,22 @@ class MethodFieldUnloadingArea(models.Model):
                                                                         ('result_makloon', 'Result Makloon'),
                                                                         ('valasi_makloon', 'Valasi Makloon')])
     
+    validate_seconds = fields.Boolean(string='Validate Confirm', default=False)
+
+    # wizard_alasan = fields.Many2one(comodel_name='wizard.alasan', string='Wizard Alasan')
+    
     def button_validate(self):
         for r in self:
             search_quant = r.env['stock.quant']
-            search_report = r.env['setu.inventory.ledger.bi.report']
             for line in r.move_ids_without_package:
                 auto_form = {
                     'product_id' : line.product_id.id,
+                    # 'product_tmpl_id' : create_line_id.product_tmpl_id.id,
                     'location_id' : r.picking_type_id.default_location_dest_id.id,
-                    'inventory_quantity' : line.quantity_done,
-                    'quantity' : line.quantity_done,
-                    'in_date' : fields.datetime.now(),
+                    'inventory_quantity' : line.product_uom_qty + line.quantity_done,
                     'product_uom_id' : line.product_uom.id,
                     'value' : line.product_id.standard_price * (line.product_uom_qty + line.quantity_done),
                 }
-                report_auto_form = {
-                    'inventory_date' : fields.date.today(),
-                    'product_id' : line.product_id.id,
-                    'company_id' : line.company_id.id,
-                    'warehouse_id' : line.picking_type_id.warehouse_id.id,
-                    'opening_stock' : line.product_uom_qty,
-                    'total_in' : line.quantity_done,
-                    'total_out' : line.quantity_done,
-                }
-                create_report = search_report.sudo().create(report_auto_form)
                 create_form = search_quant.sudo().create(auto_form)
                 _logger.info(auto_form)
             super(MethodFieldUnloadingArea, r).action_generate_backorder_wizard()
@@ -87,11 +79,15 @@ class MethodFieldUnloadingArea(models.Model):
     def action_validate_second(self):
         for r in self:
             if r.transfer_category:
+                r.validate_seconds = True
                 stock_create_id = self.env['stock.picking']
                 stock_create_line_id = self.env['stock.move']
+                quant_create_id = self.env['stock.quant']
+                # state_inv = r.state
                 auto_form = {
                     'ref_id' : r.id,
                     'name' : '/',
+                    # 'state' : r.state,
                     'partner_id' : r.partner_id.id,
                     'picking_type_id' : r.transfer_category.id,
                     'scheduled_date' : r.scheduled_date,
@@ -106,7 +102,9 @@ class MethodFieldUnloadingArea(models.Model):
                     'location_id' : r.transfer_category.default_location_src_id.id,
                     'location_dest_id' : r.transfer_category.default_location_dest_id.id,
                 }
+                # stock_create_id.state = r.state
                 create_id = stock_create_id.sudo().create(auto_form)
+                # r.ref_id.state = r.state
                 for line in r.move_ids_without_package:
                     line_auto_form = {
                         'picking_id' : create_id.id,
@@ -123,7 +121,37 @@ class MethodFieldUnloadingArea(models.Model):
                         'location_dest_id' : r.transfer_category.default_location_dest_id.id,
                     }
                     create_line_id = stock_create_line_id.sudo().create(line_auto_form)
+                    
+                    for line_quant in line:
+                        quant_auto = {
+                            'product_id' : line_quant.product_id.id,
+                            # 'product_tmpl_id' : create_line_id.product_tmpl_id.id,
+                            'location_id' : r.transfer_category.default_location_dest_id.id,
+                            'inventory_quantity' : line_quant.product_uom_qty + line_quant.quantity_done,
+                            'product_uom_id' : line_quant.product_uom.id,
+                            'value' : line_quant.product_id.standard_price * (line_quant.product_uom_qty + line_quant.quantity_done),
+                        }
+                        create_quant = quant_create_id.sudo().create(quant_auto)
+                        print(quant_auto)
+                    
+                    
+                    # search_quant_prod = line.env['product.product'].search([('id','=', line.product_id.id)])
+                    # if search_quant_prod:
+                    #     quant_auto = {
+                    #         'stock_quant_ids' : [
+                    #             (0, 0, {
+                    #                 'product_id' : line.product_id.id,
+                    #                 'product_tmpl_id' : create_line_id.product_tmpl_id.id,
+                    #                 'location_id' : r.transfer_category.default_location_dest_id.id,
+                    #                 'inventory_quantity' : line.product_uom_qty + line.quantity_done,
+                    #                 'product_uom_id' : line.product_uom.id,
+                    #                 'value' : line.product_id.standard_price * (line.product_uom_qty + line.quantity_done),
+                    #             })
+                    #         ]
+                    #     }
+                    #     create_quant = search_quant_prod.sudo().create(quant_auto)
                 create_id.action_confirm()
+                r.button_validate()
                 
                 if self._check_backorder():
                     return self.action_generate_backorder_wizard()
@@ -175,6 +203,7 @@ class MethodFieldUnloadingArea(models.Model):
                 'context': {'default_stock_picking_id' : self.id},
                 'target': 'new',
             }
+            
 
 
 class InheritName(models.Model):
@@ -184,7 +213,6 @@ class InheritName(models.Model):
     product_uom = fields.Many2one('uom.uom', 'Unit of Measure', required=False, domain="[('category_id', '=', product_uom_category_id)]")
     is_quantity_done_editable = fields.Boolean(string='is quantity done editable', default=True, compute="_onchange_product_id_and_part_item")
     is_initial_demand_editable = fields.Boolean(string='Is initial demand editable', default=True, compute="_onchange_product_id_and_part_item")
-    input_ng = fields.Float(string='NG')
     
     @api.depends('is_quantity_done_editable', 'is_initial_demand_editable')
     def _onchange_product_id_and_part_item(self):
@@ -195,9 +223,8 @@ class InheritName(models.Model):
             else:
                 r.is_quantity_done_editable = True
                 r.is_initial_demand_editable = True
-                
-    # @api.onchange('quantity_done')
-    # def _onchange_quantity_done(self):
-    #     for r in self:
-    #         r.product_uom_qty = r.quantity_done
-    
+
+    @api.onchange('quantity_done')
+    def _onchange_quantity_done(self):
+        for r in self:
+            r.product_uom_qty = r.quantity_done

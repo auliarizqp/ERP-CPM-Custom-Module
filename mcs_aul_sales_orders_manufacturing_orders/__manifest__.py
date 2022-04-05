@@ -19,13 +19,11 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','sale','cel_custom_cpm','dn_purchase_cpm','dn_inventory_cpm','mrp','mrp_maintenance'],
+    'depends': ['base','sale','cel_custom_cpm','mrp','dn_purchase_cpm','dn_inventory_cpm','mrp','mrp_maintenance','mrp_workorder','quality_control'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/oee.xml',
         'views/dandori_mold.xml',
         'views/persiapan_proses_mold.xml',
         'views/setting_kondisi_mold.xml',
@@ -36,5 +34,7 @@
         'views/matl_mold.xml',
         'views/utility_mold.xml',
         'views/wizard_persiapan_mold.xml',
+        'views/popup_quantity.xml',
+        'views/views.xml',
     ],
 }

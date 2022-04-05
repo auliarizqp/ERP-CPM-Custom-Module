@@ -11,22 +11,33 @@
         <xpath expr="//sheet/notebook/page[3]" position="move"/>
       </xpath>
       <xpath expr="//sheet/notebook/page[1]//field[@name='quantity_done']" position="attributes">
-        <attribute name="attrs">{'readonly':[('is_quantity_done_editable', '!=', False)]}</attribute>
+        <attribute name="attrs">{'readonly':[('is_quantity_done_editable', '=', False)]}</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
       <xpath expr="//header" position="inside">
         <!-- <button name="action_set_to_draft" type="object" string="Reset to Draft" attrs="{'invisible':[('state','=','draft')]}"/> -->
-        <button name="action_validate_second" type="object" string="Validate Material" attrs="{'invisible':[('state','in',('draft','done'))]}"/>
+        <button name="action_validate_second" type="object" string="Confirm" class="btn btn-primary" attrs="{'invisible':['|', ('state','=','draft'), ('transfer_category', '=', False)]}"/>
       </xpath>
       <xpath expr="//field[@name='backorder_id']" position="after">
-        <field name="transfer_category"/>
+        <field name="transfer_category" attrs="{'readonly' : [('state', '=', 'done'), ('act_picking_warehouse', '!=', 'PRODUKSI')]}"/>
+        <field name="trans_cat" attrs="{'invisible':[('picking_type_id_compute','!=','PRODUKSI: Internal Transfers IN')]}"/>
       </xpath>
       <xpath expr="//notebook//field[@name='picking_type_code']" position="after">
         <field name="picking_type_id_compute" invisible="1"/>
         <field name="act_picking_complete" readonly="1" force_save="1"/>
         <field name="act_picking_validate" readonly="1" force_save="1"/>
+        <field name="act_picking_warehouse" readonly="1" invisible="1" force_save="1"/>
         <field name="alasan" readonly="1" force_save="1" invisible="1"/>
         <field name="alasan_id" readonly="1" force_save="1" options="{'no_create': True, 'no_open':True}"/>
+      </xpath>
+      <xpath expr="//field[@name='move_ids_without_package']/tree/field[@name='product_uom_qty']" position="attributes">
+        <attribute name="invisible">0</attribute>
+      </xpath>
+      <xpath expr="//field[@name='move_ids_without_package']/form//field[@name='product_uom_qty']" position="attributes">
+        <attribute name="invisible">0</attribute>
+      </xpath>
+      <xpath expr="//field[@name='origin']" position="before">
+        <field name="user_qc" options="{'no_create' : True}"/>
       </xpath>
     </field>
   </record>
@@ -39,6 +50,9 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='move_ids_without_package']//field[@name='qty_ng']" position="attributes">
         <attribute name="readonly">0</attribute>
+      </xpath>
+      <xpath expr="//field[@name='move_ids_without_package']//field[@name='psn_ng']" position="after">
+        <field name="input_ng"/>
       </xpath>
     </field>
   </record>
@@ -59,7 +73,7 @@
         <button name="action_complete" type="object" string="Complete" class="btn btn-primary" attrs="{'invisible':['|',('picking_type_id_compute','!=','BARANG JADI: Release to Customer'), ('act_picking_complete','!=',False)]}" groups="mcs_aul_inventory_edit.group_inventory_button_validate_and_complete"/>
         <button name="action_validate_accounting" type="object" string="Validate Accounting" class="btn btn-primary" attrs="{'invisible':['|',('picking_type_id_compute','!=','BARANG JADI: Release to Customer'), ('act_picking_validate','!=',False)]}" groups="mcs_aul_inventory_edit.group_accounting_button_validate_and_complete"/>
         <button name="action_revisi" type="object" string="Revisi" class="btn btn-primary" attrs="{'invisible':[('picking_type_id_compute','!=','BARANG JADI: Release to Customer')]}" groups="mcs_aul_inventory_edit.group_accounting_button_validate_and_complete,mcs_aul_inventory_edit.group_inventory_button_validate_and_complete"/>
-      </xpath>
+      </xpath> 
     </field>
   </record>
 
@@ -114,9 +128,9 @@
       <xpath expr="//field[@name='injection_type']" position="attributes">
         <attribute name="invisible">1</attribute>
       </xpath>
-      <xpath expr="//field[@name='shift']" position="attributes">
+      <!-- <xpath expr="//field[@name='shift']" position="attributes">
         <attribute name="invisible">1</attribute>
-      </xpath>
+      </xpath> -->
       <xpath expr="//field[@name='delvery_date']" position="attributes">
         <attribute name="string">Delivery Date</attribute>
       </xpath>

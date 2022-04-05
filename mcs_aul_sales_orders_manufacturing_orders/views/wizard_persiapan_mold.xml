@@ -7,7 +7,7 @@
     <field name="model">wizard.persiapan.mold</field>
     <field name="priority">999</field>
     <field name="arch" type="xml">
-      <form string="Persiapan Mold">
+      <form string="Downtime Mold">
         <sheet>
           <group>
             <field name="dandori_id"/>

@@ -1,0 +1,170 @@
+<odoo>
+    <template id="bpjs_surat_rujukan">
+
+        <t t-call="report.html_container">
+            <t t-foreach="data_rujukan(data)" t-as="line">
+
+                <div class='page'>
+                    <div class='oe_structure'>
+                        
+                        <div class='row'>
+                            <div class='col-xs-4'>
+                                <img src='http://103.7.226.204:8040/bpjs_kesehatan_integration/static/description/800x127.png' style="max-height: 45px; width:30%;"/>
+								<img src='http://103.7.226.204:8040/bpjs_kesehatan_integration/static/description/iconRS.png' align="right" height="100" width="100" style="margin-right: 5%"/>
+<!--                                <img t-att-src="'data:image/png;base64,%s' % ir_attachment(line.logo_bpjs)" style="max-height: 41px; width:85%;"/>-->
+<!--                                <img t-if="o.location_id.company_id.logo" t-att-src="image_data_uri(o.location_id.company_id.logo)" style="max-height: 41px; width:85%;"/>-->
+<!--                                <img t-if="o.location_id.company_id.logo" t-att-src="image_data_uri(o.location_id.company_id.logo)" style="max-height: 41px; width:85%;"/>-->
+<!--                                <img src="line.get('logo_bpjs')" style="max-height: 41px; width:85%;"/>-->
+<!--                                <img t-attf-src="line.get('logo_bpjs')" style="max-height: 41px; width:85%;"/>-->
+                            </div>
+                            <table style="width:70%; margin-top:10px; text-align: left;">
+                                <tr>
+                                    <th style="text-align: left; font-size:12px;"><t t-esc="line.get('name')"/></th>
+                                    <th style="text-align: right; font-size:14px;">SURAT RUJUKAN</th>
+                                </tr>
+                                <tr>
+                                    <th style="text-align: left; font-size:12px;"><t t-esc="line.get('tgl_rujukan')"/></th>
+                                    <th style="text-align: right; font-size:14px;">RS PERMATA CIREBON</th>
+                                </tr>
+                            </table>
+                                <!-- <div class='col-xs-4' style="padding:3px">
+                                    <h4 style=" font-size:14px;">SURAT RUJUKAN</h4>
+                                    <h4 style="margin-top: -15px; font-size:14px;">RS PERMATA CIREBON</h4>
+                                </div>
+                                <div class='col-xs-4 text-right' style="padding:3px; margin-top: -4%;">
+                                    <h4 style=" font-size:12px;"><t t-esc="line.get('name')"/></h4>
+                                    <h4 style="margin-top: -10px; font-size:12px;"><t t-esc="line.get('tgl_rujukan')"/></h4>
+                                </div> -->
+                        </div>
+
+
+                        <div class='row' style="margin-top: -1%;">
+                            <div class='col-xs-8'>
+                            <table style="width:100%">
+                                
+                                <t t-if="line.get('jenis_pelayanan') == '2'">
+                                    <tr>
+                                        <div style="width:80%">
+                                        <td style="padding:2px; font-size:12px;">Kepada Yth</td>
+                                        <td style="padding:2px; font-size:12px;"> : <t t-esc="line.get('poli_nama')"/></td>
+                                        </div>
+                                        <div style="width:20%">
+                                            <td style="padding:2px; font-size:12px;">== <t t-esc="line.get('tipe_rujukan')"/> ==</td>
+                                        </div>
+                                    </tr>
+                                    <tr>
+                                        <div style="width:80%">
+                                        <td style="padding:2px; font-size:12px;"></td>
+                                        <td style="padding:2px; font-size:12px;"><t t-esc="line.get('ppk_rujukan_nama')"/></td>
+                                        </div>
+                                        <div style="wdith:20%">
+                                            <t t-if="line.get('jenis_pelayanan') == '2'">
+                                                <td style="padding:2px; font-size:12px;">Rawat Jalan</td>
+                                            </t>
+
+                                            <t t-if="line.get('jenis_pelayanan') == '1'">
+                                                <td style="padding:2px; font-size:12px;">Rawat Inap</td>
+                                            </t>
+                                        </div>
+                                    </tr>
+                                </t>
+
+                                <t t-if="line.get('jenis_pelayanan') == '1'">
+                                    <tr>
+                                        <td style="padding:2px; font-size:12px;">Kepada Yth</td>
+                                        <td style="padding:2px; font-size:12px;"><t t-esc="line.get('ppk_rujukan_nama')"/></td>
+                                    </tr>
+                                </t>
+                            </table>
+
+                                <p style="padding:2px; font-size:12px;">Mohon Pemeriksaan dan Penanganan Lebih Lanjut : </p>
+                            <table>
+                                <tr>
+                                    <td style="padding:2px; font-size:12px; width:35%">No. Kartu</td>
+                                    <td style="padding:2px; font-size:12px; width:65%"> : <t t-esc="line.get('no_kartu')"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:2px; font-size:12px; width:35%">Nama Peserta</td>
+                                    <td style="padding:2px; font-size:12px; width:65%"> : <t t-esc="line.get('nm_peserta')"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:2px; font-size:12px; width:35%">Tgl. Lahir</td>
+                                    <td style="padding:2px; font-size:12px; width:65%"> : <t t-esc="line.get('tgl_lahir')"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:2px; font-size:12px; width:35%">Diagnosa</td>
+                                    <td style="padding:2px; font-size:12px; width:65%"> : <t t-esc="line.get('diagnosa_nama')"/></td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:2px; font-size:12px; width:35%">Keterangan</td>
+                                    <td style="padding:2px; font-size:12px; width:65%"> : <t t-esc="line.get('catatan')"/></td>
+                                </tr>
+                            </table>
+
+                                <p style="margin:0; padding:4px; font-size:12px;">Demikian atas bantuannya diucapkan banyak terima kasih</p>
+                            </div>
+
+                            <div class='col-xs-3'>
+                            <table>
+<!--                                <tr>-->
+<!--                                    <div style="width:80%"><td></td></div>-->
+<!--                                    <div style="width:20%">-->
+<!--                                    <td style="padding:2px; font-size:12px;">== <t t-esc="line.get('tipe_rujukan')"/> ==</td>-->
+<!--                                    </div>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <t t-if="line.get('jenis_pelayanan') == '2'">-->
+<!--                                        <td style="padding:2px; font-size:12px;">Rawat Jalan</td>-->
+<!--                                    </t>-->
+
+<!--                                    <t t-if="line.get('jenis_pelayanan') == '1'">-->
+<!--                                        <td style="padding:2px; font-size:12px;">Rawat Inap</td>-->
+<!--                                    </t>-->
+<!--                                </tr>-->
+                            </table>
+                            </div>
+                        </div>
+
+                        <div class='row'>
+                            <div class='col-xs-8' style="font-size: 14px;">
+                                <p style=" font-size:12px;">* Rujukan Berlaku Sampai Dengan <t t-esc="line.get('tgl_expired')"/></p>
+                                <p style=" font-size:12px;">* Tgl Rencana Berkunjung <t t-esc="line.get('tgl_berkunjung')"/></p>
+                            </div>
+                        </div>
+
+                        <table style="width:100%;">
+                            <tr>
+                                <div style="width:80%">
+                                    <td style="vertical-align:top; font-size:12px;">
+                                        Tgl Cetak : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %p')"/>
+                                    </td>
+                                </div>
+                                <div style="width:20%">
+                                    <td style="font-size:12px;">
+                                        Mengetahui
+                                        <br/><br/><br/>
+                                        __________________
+                                    </td>
+                                </div>
+                            </tr>
+                        </table>
+
+                        <div class='row'>
+
+<!--                            <small class='col-xs-9'>Tgl Cetak : <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d/%m/%Y %p')"/></small>-->
+
+<!--                            <div class='col-xs-3 text-center margin-top:-1%; font-size:12px;'>-->
+<!--                                Mengetahui-->
+<!--                                <br/><br/><br/>-->
+
+<!--                                __________________-->
+<!--                            </div>-->
+                        </div>
+
+                    </div>
+                </div>
+
+            </t>
+        </t>
+    </template>
+</odoo>

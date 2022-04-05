@@ -37,7 +37,7 @@
   <menuitem id="dandori_menu_act" 
             name="Dandori" 
             parent="mcs_aul_sales_orders_manufacturing_orders.master_mold_menu_act" 
-            action="mcs_aul_sales_orders_manufacturing_orders.dandori_action" 
+            action="mcs_aul_sales_orders_manufacturing_orders.dandori_mold_action" 
             sequence="1"/>
 
 </odoo>

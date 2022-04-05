@@ -10,7 +10,7 @@
                             ('picking_type_id','=','BARANG JADI'),
                             ('picking_type_id.name','=','Release to Customer')
                         ]
-                        </field>
+    </field>
     </record>
 
     <!-- model.name action tree -->

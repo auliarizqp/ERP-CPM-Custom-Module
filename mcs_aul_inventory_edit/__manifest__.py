@@ -20,7 +20,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','stock','dn_inventory_cpm','sale_blanket_order','dn_sales_cpm','invoice_from_picking'],
+    'depends': ['base','dn_inventory_cpm','sale_blanket_order','dn_sales_cpm','invoice_from_picking','report_xlsx'],
 
     # always loaded
     'data': [
@@ -29,5 +29,6 @@
         'views/wizard_alasan.xml',
         'views/views.xml',
         'views/delivery_order_status.xml',
+        'views/delivery_order_status_excel.xml',
     ],
 }

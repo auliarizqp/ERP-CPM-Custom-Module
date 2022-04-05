@@ -11,7 +11,7 @@
         <sheet>
           <group>
             <field name="alasan" force_save="1"/>
-            <field name="alasan_id" readonly="0" force_save="1" attrs="{'invisible':[('alasan','!=',True)]}"/>
+            <field name="alasan_id" readonly="0" force_save="1"  attrs="{'invisible':[('alasan','!=',True)]}"/>
           </group>
         </sheet>
         <footer>

@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_master_oee,Access Master OEE,model_master_oee,,1,1,1,1
 access_dandori_mold,Access Dandori Mold,model_dandori_mold,,1,1,1,1
 access_persiapan_proses_mold,Access Persiapan Proses Mold,model_persiapan_proses_mold,,1,1,1,1
 access_setting_kondisi_mold,Access Setting Kondisi Mold,model_setting_kondisi_mold,,1,1,1,1
@@ -10,3 +9,6 @@ access_cooling_mold,Access Cooling Mold,model_cooling_mold,,1,1,1,1
 access_matl_mold,Access Matl Mold,model_matl_mold,,1,1,1,1
 access_utility_mold,Access Utility Mold,model_utility_mold,,1,1,1,1
 access_wizard_persiapan_mold,Access Persiapan Mold,model_wizard_persiapan_mold,,1,1,1,1
+access_persiapan_mold,Access Persiapan Tree Mold,model_persiapan_mold,,1,1,1,1
+access_quantity_produce_line,access_quantity_produce_line,model_quantity_produce_line,,1,1,1,1
+access_popup_quantity_produce,access_popup_quantity_produce,model_popup_quantity_produce,,1,1,1,1

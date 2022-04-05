@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    
+    <!-- popup.quantity.produce form view -->
+    <record id="popup_quantity_produce_view_form" model="ir.ui.view">
+        <field name="name">popup.quantity.produce.view.form</field>
+        <field name="model">popup.quantity.produce</field>
+        <field name="arch" type="xml">
+            <form string="Quantity Produce">
+                <sheet>
+                    <group>
+                        <field name="product_qty_input"/>
+                        <field name="ng_input"/>
+                    </group>
+                </sheet>        
+                <footer>
+                    <button name="approve" type="object" string="Approve" class="btn btn-primary"/>
+                    <button type="object" string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>
