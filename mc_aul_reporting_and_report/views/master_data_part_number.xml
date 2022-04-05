@@ -34,7 +34,6 @@
     <field name="arch" type="xml">
       <search string="Search By">
         <field name="part_number"/>
-        <!-- <field name="product"/> -->
       </search>
     </field>
   </record>

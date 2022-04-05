@@ -1,6 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
+  <record model="ir.ui.menu" id="account.menu_finance_payables">
+    <field name="name">Supplier</field>
+  </record>
+
+  <record model="ir.ui.menu" id="account.menu_account_supplier">
+    <field name="name">Supplier</field>
+  </record>
+
+  <record model="ir.ui.menu" id="account.menu_action_move_in_invoice_type">
+    <field name="name">Invoice</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="account.action_move_in_invoice_type">
+    <field name="name">Invoice</field>
+  </record>
+
+  <record model="ir.actions.act_window" id="account.res_partner_action_supplier">
+    <field name="name">Suppiler</field>
+  </record>
+
   <!-- stock.picking inherit form view -->
   <record id="inherit_balance_rfq_view_id" model="ir.ui.view">
     <field name="name">inherit_balance_rfq_view_id</field>
@@ -9,9 +29,13 @@
     <field name="arch" type="xml">
       <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_uom']" position="after">
         <field name="balance"/>
+        <field name="remarks"/>
+        <field name="injection_reason"/>
+        <field name="nd_injection_reason"/>
+        <field name="picking_type_id_compute" invisible="1"/>
       </xpath>
       <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="before">
-        <field name="part_number" readonly="1" force_save="1"/>
+        <field name="part_number" readonly="0" force_save="1"/>
         <field name="item_number" readonly="0" force_save="1"/>
       </xpath>
       <xpath expr="//sheet/notebook//field[@name='move_ids_without_package']/tree/field[@name='product_id']" position="attributes">
@@ -31,6 +55,12 @@
     <field name="arch" type="xml">
       <xpath expr="//field[@name='move_ids_without_package']//field[@name='part_number']" position="attributes">
         <attribute name="invisible">1</attribute>
+      </xpath>
+      <xpath expr="//field[@name='move_ids_without_package']//field[@name='qty_ng']" position="attributes">
+        <attribute name="attrs">{'invisible':[('picking_type_id_compute','==','PRODUKSI: Internal Transfers Produksi')]}</attribute>
+      </xpath>
+      <xpath expr="//field[@name='move_ids_without_package']//field[@name='psn_ng']" position="attributes">
+        <attribute name="attrs">{'invisible':[('picking_type_id_compute','==','PRODUKSI: Internal Transfers Produksi')]}</attribute>
       </xpath>
     </field>
   </record>
@@ -96,7 +126,7 @@
         <field name="balance"/>
       </xpath>
       <xpath expr="//sheet/notebook//field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
-        <attribute name="readonly">1</attribute>
+        <attribute name="readonly">0</attribute>
       </xpath>
     </field>
   </record>
@@ -135,7 +165,7 @@
     <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
     <field name="arch" type="xml">
       <xpath expr="//sheet/notebook//field[@name='line_ids']//field[@name='product_id']" position="attributes">
-        <attribute name="readonly">1</attribute>
+        <attribute name="readonly">0</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
     </field>
@@ -160,7 +190,7 @@
     <field name="inherit_id" ref="sale_blanket_order.view_blanket_order_form"/>
     <field name="arch" type="xml">
       <xpath expr="////field[@name='line_ids']//tree//field[@name='product_id']" position="attributes">
-        <attribute name="readonly">1</attribute>
+        <attribute name="readonly">0</attribute>
         <attribute name="force_save">1</attribute>
       </xpath>
     </field>
@@ -198,6 +228,30 @@
     <field name="arch" type="xml">
       <xpath expr="////sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='item_number']" position="attributes">
         <attribute name="readonly">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- account.bank.statement inherit form view -->
+  <record id="change_attrs_balance_view_id" model="ir.ui.view">
+    <field name="name">account.bank.statement.inherit.view.form</field>
+    <field name="model">account.bank.statement</field>
+    <field name="inherit_id" ref="account.view_bank_statement_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//sheet/group[1]/group[2]//field[@name='balance_end_real']" position="attributes">
+        <attribute name="force_save">1</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- account.move inherit form view -->
+  <record id="add_attrs_account_invoice_line_view_id" model="ir.ui.view">
+    <field name="name">account.move.inherit.view.form</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='invoice_line_ids']" position="attributes">
+        <attribute name="force_save">1</attribute>
       </xpath>
     </field>
   </record>

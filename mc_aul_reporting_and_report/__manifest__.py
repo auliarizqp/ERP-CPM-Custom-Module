@@ -19,7 +19,7 @@
     'version': '1.0',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','dn_inventory_cpm','dn_sales_cpm','purchase','rnf_cpm_custom','dn_molding_depreciation_cpm','dn_purchase_cpm'],
+    'depends': ['base','dn_inventory_cpm','dn_sales_cpm','purchase','rnf_cpm_custom','dn_molding_depreciation_cpm','dn_purchase_cpm','account'],
 
     # always loaded
     'data': [

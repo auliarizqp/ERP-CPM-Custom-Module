@@ -92,7 +92,7 @@
                 <t t-set="index" t-value="1"/>
                 <t t-foreach="o.move_line_ids_without_package" t-as="line">
                   <t t-if="index &gt;= i_from and index &lt; i_to">
-                    <tr style="text-align:center; height: 70%">
+                    <tr style="text-align:center;">
                       <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:5%;">
                         <span style="display:inline-block;" t-esc="index"/>
                       </td>
@@ -114,7 +114,7 @@
                   <t t-set="index" t-value="index+1"/>
                 </t>
                 <t t-set="i_from" t-value="i_to"/>
-                <t t-set="i_to" t-value="i_to + 4"/>
+                <t t-set="i_to" t-value="i_to + 5"/>
               </table>
               <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
                 <tr style="text-align:center;">

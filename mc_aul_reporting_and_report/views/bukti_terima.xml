@@ -4,10 +4,10 @@
   <record id="paperformat_bukti_terima_barang" model="report.paperformat">
     <field name="name">Bukti Terima Barang</field>
     <field name="default" eval="True"/>
-    <field name="format">A4</field>
+    <field name="format">A5</field>
     <field name="page_height">0</field>
     <field name="page_width">0</field>
-    <field name="orientation">Portrait</field>
+    <field name="orientation">Landscape</field>
     <field name="margin_top">3</field>
     <field name="margin_bottom">3</field>
     <field name="margin_left">3</field>
@@ -33,15 +33,13 @@
           <div class="page" style="!important;">
             <table style="border:1px solid #000000; width:100%; border-collapse:collapse;">
               <tbody>
-                <tr style="">
+                <tr>
                   <td rowspan="5" style="border:1px solid #000000; text-align: center; width:25%;" >
-                    <img src="https://siva.jsstatic.com/id/32942/images/logo/32942_logo_0_68073.jpg" style="padding:1px;" alt="Logo" width="250" height="150"/>
+                    <img src="https://siva.jsstatic.com/id/32942/images/logo/32942_logo_0_68073.jpg" style="padding:1px; margin-top:20px;" alt="Logo" width="200" height="125"/>
                   </td>
-                  <th style="text-align: center; font-size: 18px; padding: 10px; border:1px solid #000000; width:40%;" rowspan="5">Bukti Terima Barang<br />
-                    <br/>
-                    <br/>
+                  <td style="text-align: center; font-size: 18px; padding: 10px; border:1px solid #000000; width:40%;" rowspan="5">BUKTI TERIMA BARANG
                     <!-- <span style="padding-right: 90px;">No. Bukti : <span t-field="o.name"/></span> -->
-                  </th>
+                  </td>
                 </tr>
                 <tr style="font-size: 11px; width:25%;">
                   <td style="padding: 5px; border:1px solid #000000; width:15%;">No.Dok</td>
@@ -91,7 +89,7 @@
                 <td style="border:1px solid #000000; font-size:12px; width:15%; padding:3px;">Keterangan</td>
               </tr>
             </table>
-            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;  height: 400px;">
+            <table style="border:1px solid #000000; width:100%; border-collapse:collapse;  height: 180px;">
               <t t-set="index" t-value="1"/>
               <t t-foreach="o.move_line_ids_without_package" t-as="line">
                 <tr style="text-align:center;">
@@ -102,7 +100,7 @@
                     <span t-field="line.product_id.name"/>
                   </td>
                   <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
-                    <span t-field="line.product_id.item_number"/>
+                    <span t-field="line.product_id.item_number.item_number"/>
                   </td>
                   <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%;">
                     <!-- <span t-field=""/> -->

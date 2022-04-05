@@ -111,9 +111,9 @@
                       <td style="border-left:1px solid #000000; border-right:1px solid #000000; font-size:12px; padding:5px; width:15%; text-align:center;">
                         <!-- <span t-field="o.note"/> -->
                       </td>
-                      <t t-set="index" t-value="index+1"/>
                     </tr>
                   </t>
+                  <t t-set="index" t-value="index+1"/>
                 </t>
                 <t t-set="i_from" t-value="i_to"/>
                 <t t-set="i_to" t-value="i_to + 3"/>
